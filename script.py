@@ -97,31 +97,39 @@ def start_bot(meet_url,user_mail,password):
     
     print("Successfully Signed In Now lets join Meeting :v ")
     time.sleep(10)
-    
+    #dismiss_popup
     webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
   
     time.sleep(3)
-
-    driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]').click()
+    #join meeting
+    WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]'))).click()
+    #driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]').click()
     time.sleep(3)
-    driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div[4]/div[1]/span[1]/span[1]').click()
+    #pin_bottom_bar
+    WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,'//body/div/c-wiz/div/div/div/div/div/div/div[4]/div[1]/span[1]/span[1]'))).click()
+    #driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div[4]/div[1]/span[1]/span[1]').click()
     time.sleep(3)
     attendies = driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div[1]/span[1]/span[1]/div[1]/div[1]/span[2]').text
-    time.sleep(600)
+    time.sleep(60)
     while(True):
         attendies = driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div[1]/span[1]/span[1]/div[1]/div[1]/span[2]').text
         print(attendies)
-        if int(attendies) < 20:
-            driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div[2]/div[2]/div[1]/span[1]/span[1]//*[local-name()="svg"]').click()
+        if int(attendies) < 1:#attendies_trigger
+            driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div[9]/div[2]/div[2]/div[1]').click()
+            break
         else:
             comments = WebDriverWait(driver, 60).until(
         EC.presence_of_element_located((By.XPATH,'//div//div//div//div//div//div//div//div//div//div[3]//span[1]//span[1]//div[1]//div[1]//span[2]'))
-    ).send_keys(password)
-
-
+    ).text
+            if int(comments) > 2:#comment_trigger
+                time.sleep(1)
+                #comment_Button
+                driver.find_element_by_xpath('/html[1]/body[1]/div[1]/c-wiz[1]/div[1]/div[1]/div[4]/div[3]/div[6]/div[3]/div[1]/div[2]/div[3]/span[1]/span[1]').click()
+                #last_comment
+                print(driver.find_element_by_xpath('/html[1]/body[1]/div[1]/c-wiz[1]/div[1]/div[1]/div[4]/div[3]/div[3]/div[1]/div[2]/div[2]/div[2]/span[2]/div[1]/div[1]/div[8]/div[2]/div[1]').text)
 def main():
+    '''
     sys.stdout.write(bannerTop())
-    print("MADE WITH ❤ BY SHUBHAM")
 
     user_input = input("Enter Subject:\nSE for Soft.Engineering\nOOP for JAVA CPP\nDAIT for DAI Theory\nDAIL for DAI Labs\n Enter Code: ")
     
@@ -129,7 +137,10 @@ def main():
 
     user_mail=input("Enter your VIT email : ")
     password=input("Enter your password : ")
-
+    '''
+    meet_url=TEST
+    user_mail='shubham.takankhar19@vit.edu'
+    password ='Connect@123'
     start_bot(meet_url,user_mail,password)
 
 if __name__ == '__main__':
