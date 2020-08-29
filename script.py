@@ -120,7 +120,7 @@ def start_bot(meet_url,user_mail,password):
 
 
     inner_text= driver.execute_script("return arguments[0].innerText;", messages)
-    lines = inner_text.split('\n'):
+    lines = inner_text.split('\n')
         
 
 
