@@ -1,3 +1,4 @@
 *.log
 bot.py
 var/
+pyenviron.py

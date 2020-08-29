@@ -4,6 +4,7 @@ import string
 import random
 import sys
 import colorama
+import os
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
@@ -16,6 +17,7 @@ from selenium.webdriver.support.ui import Select
 from random import randint
 from __banner.myBanner import bannerTop
 from __colors__.colors import *
+from pyenviron import *
 
 ######## This script is only for educational purpose ########
 ######## use it on your own RISK ########
@@ -103,18 +105,31 @@ def start_bot(meet_url,user_mail,password):
     time.sleep(3)
     #join meeting
     WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]'))).click()
-    #driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]').click()
     time.sleep(3)
-    #pin_bottom_bar
-    WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,'//body/div/c-wiz/div/div/div/div/div/div/div[4]/div[1]/span[1]/span[1]'))).click()
-    #driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div[4]/div[1]/span[1]/span[1]').click()
+    #pin_bottom_bar --- not necessary though ---
     time.sleep(3)
-    attendies = driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div[1]/span[1]/span[1]/div[1]/div[1]/span[2]').text
-    time.sleep(60)
+    driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div[1]/div/div[4]/div[3]/div[6]/div[3]/div/div[2]/div[3]/span').click()
+    time.sleep(3)
+    peoples = (driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')','')
+    print("no of people joined:"+peoples)
+    time.sleep(3)
+    #WebDriverWait(driver,60)until(EC.presence_of_element_located((By.XPATH,'//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')))
+    messages = driver.find_element_by_xpath('//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')
+    while(int(peoples)<2):
+        peoples = int((driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')',''))
+
+
+    inner_text= driver.execute_script("return arguments[0].innerText;", messages)
+    lines = inner_text.split('\n'):
+        
+
+
+    '''
+    time.sleep(6)
     while(True):
-        attendies = driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div[1]/span[1]/span[1]/div[1]/div[1]/span[2]').text
-        print(attendies)
-        if int(attendies) < 1:#attendies_trigger
+       
+        
+        elif int(attendies) < 1:#attendies_trigger
             driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div[9]/div[2]/div[2]/div[1]').click()
             break
         else:
@@ -124,12 +139,14 @@ def start_bot(meet_url,user_mail,password):
             if int(comments) > 2:#comment_trigger
                 time.sleep(1)
                 #comment_Button
-                driver.find_element_by_xpath('/html[1]/body[1]/div[1]/c-wiz[1]/div[1]/div[1]/div[4]/div[3]/div[6]/div[3]/div[1]/div[2]/div[3]/span[1]/span[1]').click()
+                driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div[1]/div/div[4]/div[3]/div[6]/div[3]/div/div[2]/div[3]/span').click()
                 #last_comment
-                print(driver.find_element_by_xpath('/html[1]/body[1]/div[1]/c-wiz[1]/div[1]/div[1]/div[4]/div[3]/div[3]/div[1]/div[2]/div[2]/div[2]/span[2]/div[1]/div[1]/div[8]/div[2]/div[1]').text)
+                print(driver.find_element_by_xpath("//body/div/c-wiz/div/div/div/div/div[3]/div[1]/div[2]/div[2]/*").text)
+'''
 def main():
     '''
     sys.stdout.write(bannerTop())
+
 
     user_input = input("Enter Subject:\nSE for Soft.Engineering\nOOP for JAVA CPP\nDAIT for DAI Theory\nDAIL for DAI Labs\n Enter Code: ")
     
@@ -140,7 +157,7 @@ def main():
     '''
     meet_url=TEST
     user_mail='shubham.takankhar19@vit.edu'
-    password ='Connect@123'
+    password =os.environ.get('PASS')
     start_bot(meet_url,user_mail,password)
 
 if __name__ == '__main__':
