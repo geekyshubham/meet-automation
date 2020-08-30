@@ -9,15 +9,15 @@ git clone https://www.github.com/geekyshubham/meet-automation.git
 
 STEPS TO INSTALL
 
-1.INSTALL PYTHON3 AND OTHER DEPENDENCIES
-  -install pyhton3 from [python](www.python.org)
-  -install dependencies by running setup.py script 
+1.INSTALL PYTHON3 AND OTHER DEPENDENCIES:
+* install pyhton3 from [python.org](www.python.org)
+* install dependencies by running setup.py script 
 
-`python setup.py`
+```python setup.py```
 
 2.RUN THE SCRIPT
 
-`python script.py`
+```python script.py```
 
 3.ENTER THE REQUESTED DETAILS
 
