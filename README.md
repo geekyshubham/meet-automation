@@ -1,7 +1,7 @@
 # meet-automation
 selenium web-driver based automation of Google Meet on ChromeDriver and GeckoDriver
 
-![Banner]((https://github.com/geekyshubham/meet-automation/blob/master/images/banner.png)
+![Banner](https://github.com/geekyshubham/meet-automation/blob/master/images/banner.png)
 
 '''
 git clone https://www.github.com/geekyshubham/meet-automation.git
