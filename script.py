@@ -1,3 +1,9 @@
+'''
+time constraints
+reply msgs
+video records I/0 FM
+'''
+
 import time
 import re
 import string
@@ -18,6 +24,8 @@ from random import randint
 from __banner.myBanner import bannerTop
 from __colors__.colors import *
 from pyenviron import *
+from __timeCheck__.timeCheck import *
+
 
 ######## This script is only for educational purpose ########
 ######## use it on your own RISK ########
@@ -52,7 +60,7 @@ TEST= 'https://meet.google.com/tsx-vtox-mdw'
 OT=PY='https://meet.google.com/jxw-eped-jqa'
 
 
-def start_bot(meet_url,user_mail,password):
+def start_bot(meet_url,user_mail,password,messageString):
     try:
         # For Chrome
         if typex == 'chrome':
@@ -79,9 +87,9 @@ def start_bot(meet_url,user_mail,password):
         time.sleep(0.4)
         print('\n' + fr + 'Error - '+ str(e))
         exit()
-
+    roll_no = int(messageString.split(' ')[0])
     driver.maximize_window()
-    print("First Sign In to Your VIT Account: ")
+    print("First Signing In to Your VIT Account: ")
     driver.get('https://accounts.google.com')
     driver.find_element_by_xpath("//input[@id='identifierId']").send_keys(user_mail)
     driver.find_element_by_xpath("//div[@class='VfPpkd-RLmnJb']").click()
@@ -96,8 +104,9 @@ def start_bot(meet_url,user_mail,password):
   
     time.sleep(3)
     driver.get(meet_url)
-    
     print("Successfully Signed In Now lets join Meeting :v ")
+    timeStamp=currentTime()
+    endTime=endTimer(timeStamp)
     time.sleep(10)
     #dismiss_popup
     webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
@@ -107,20 +116,30 @@ def start_bot(meet_url,user_mail,password):
     WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div/div[1]'))).click()
     time.sleep(3)
     #pin_bottom_bar --- not necessary though ---
-    time.sleep(3)
+    driver.implicitly_wait(10)
+    #message pane opening...
     driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div[1]/div/div[4]/div[3]/div[6]/div[3]/div/div[2]/div[3]/span').click()
-    time.sleep(3)
+    time.sleep(5)
     peoples = (driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')','')
     print("no of people joined:"+peoples)
-    time.sleep(3)
-    #WebDriverWait(driver,60)until(EC.presence_of_element_located((By.XPATH,'//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')))
+    time.sleep(25*60)
     messages = driver.find_element_by_xpath('//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')
-    while(int(peoples)<2):
+ 
+    while(True):
         peoples = int((driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')',''))
-
-
-    inner_text= driver.execute_script("return arguments[0].innerText;", messages)
-    lines = inner_text.split('\n')
+        if (int(peoples)<25):
+            driver.get('https://www.google.com')
+            break
+        else:
+            messages = driver.find_element_by_xpath('//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')
+            inner_text= driver.execute_script("return arguments[0].innerText;", messages)
+            lines = inner_text.split('\n')
+            time.sleep(1)
+            print("Messages Detected "+str(len(lines)/2))
+            if ((int(len(lines)/2)) > (roll_no-1)):
+                WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,"//textarea[@name='chatTextInput']"))).send_keys(messageString)
+                roll_no=69696
+    
         
 
 
@@ -144,21 +163,23 @@ def start_bot(meet_url,user_mail,password):
                 print(driver.find_element_by_xpath("//body/div/c-wiz/div/div/div/div/div[3]/div[1]/div[2]/div[2]/*").text)
 '''
 def main():
-    '''
+    
     sys.stdout.write(bannerTop())
 
 
-    user_input = input("Enter Subject:\nSE for Soft.Engineering\nOOP for JAVA CPP\nDAIT for DAI Theory\nDAIL for DAI Labs\n Enter Code: ")
+    user_input = input("Enter Subject:\nSE for Soft.Engineering\nOOP for JAVA CPP\nDAIT for DAI Theory\nDAIL for DAI Labs\nCN for Computer Network \nEnter Code: ")
     
     meet_url = globals()[user_input]
-
+    messageString=input("Enter Your roll_no space your name for msg.: ")
     user_mail=input("Enter your VIT email : ")
     password=input("Enter your password : ")
     '''
     meet_url=TEST
     user_mail='shubham.takankhar19@vit.edu'
     password =os.environ.get('PASS')
-    start_bot(meet_url,user_mail,password)
+    '''
+
+    start_bot(meet_url,user_mail,password,messageString)
 
 if __name__ == '__main__':
     main()
