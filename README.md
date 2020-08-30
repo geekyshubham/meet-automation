@@ -3,9 +3,9 @@ selenium web-driver based automation of Google Meet on ChromeDriver and GeckoDri
 
 ![Banner](https://github.com/geekyshubham/meet-automation/blob/master/images/banner.png)
 
-'''
+```
 git clone https://www.github.com/geekyshubham/meet-automation.git
-'''
+```
 
 STEPS TO INSTALL
 
@@ -13,11 +13,11 @@ STEPS TO INSTALL
 -install pyhton3 from [python](www.python.org)
 -install dependencies by running setup.py script 
 
-'python setup.py'
+`python setup.py`
 
 2.RUN THE SCRIPT
 
-'python script.py'
+`python script.py`
 
 3.ENTER THE REQUESTED DETAILS
 
