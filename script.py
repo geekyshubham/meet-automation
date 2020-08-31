@@ -47,13 +47,13 @@ SE ='https://meet.google.com/xot-pzip-wnh'
 
 CN = 'https://meet.google.com/yko-bysx-ksm'
 
-OOP = 'https://meet.google.com/zfa-gmjq-itd'
+CPPJ = 'https://meet.google.com/zfa-gmjq-itd'
 
 DAIT='https://meet.google.com/zpy-qpau-git'
 
 DAIL='https://meet.google.com/cez-ztbd-vdn'
 
-TEST= 'https://meet.google.com/tsx-vtox-mdw'
+TEST= 'https://meet.google.com/bkp-gtwe-dhh'
 
 #Prof Kalpesh Joshi	https://meet.google.com/gib-cuik-uma
 
@@ -123,22 +123,30 @@ def start_bot(meet_url,user_mail,password,messageString):
     peoples = (driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')','')
     print("no of people joined:"+peoples)
     time.sleep(25*60)
+    print("Reading Messages and Checking if people are leaving...")
+    print("your roll_no is : "+str(roll_no))
+    print("your msg string is: "+messageString)
     messages = driver.find_element_by_xpath('//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')
  
     while(True):
         peoples = int((driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')',''))
         if (int(peoples)<25):
             driver.get('https://www.google.com')
+            print("\nLEFT MEETING ")
             break
         else:
             messages = driver.find_element_by_xpath('//*[@id="ow3"]/div[1]/div/div[4]/div[3]/div[3]/div/div[2]/div[2]/div[2]/span[2]/div/div[1]')
             inner_text= driver.execute_script("return arguments[0].innerText;", messages)
             lines = inner_text.split('\n')
             time.sleep(1)
-            print("Messages Detected "+str(len(lines)/2))
-            if ((int(len(lines)/2)) > (roll_no-1)):
+            sys.stdout.write("\rMessages Detected "+str(int(len(lines)/2)))
+            sys.stdout.flush()
+            if ((int(len(lines)/2)) > (roll_no-3)):
                 WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,"//textarea[@name='chatTextInput']"))).send_keys(messageString)
+                WebDriverWait(driver,60).until(EC.presence_of_all_elements_located((By.XPATH,"//body/div/c-wiz/div/div/div/div/div/div/div/div/div/span/div/div/div[2]"))).click()
                 roll_no=69696
+                print("Message Sent!")
+                time.sleep(5)
     
         
 
