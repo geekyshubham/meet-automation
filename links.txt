@@ -1,0 +1,7 @@
+SE ='https://meet.google.com/xot-pzip-wnh'
+CN = 'https://meet.google.com/yko-bysx-ksm'
+CPPJ = 'https://meet.google.com/zfa-gmjq-itd'
+DAIT='https://meet.google.com/zpy-qpau-git'
+DAIL='https://meet.google.com/cez-ztbd-vdn'
+TEST= 'https://meet.google.com/tsx-vtox-mdw'
+OT=PY='https://meet.google.com/jxw-eped-jqa'
