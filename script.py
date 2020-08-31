@@ -125,8 +125,9 @@ def start_bot(meet_url,user_mail,password,messageString):
     time.sleep(5)
     peoples = (driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')','')
     print("no of people joined:"+peoples)
-    #time.sleep(25*60)
-    time.sleep(4)
+
+    time.sleep(20*60)#sleep time where no actions are performed
+    
     print("Reading Messages and Checking if people are leaving...")
     print("your roll_no is : "+str(roll_no))
     print("your msg string is: "+messageString)
@@ -134,7 +135,7 @@ def start_bot(meet_url,user_mail,password,messageString):
     run_once=0
     while(True):
         peoples = int((driver.find_element_by_xpath('//body/div/c-wiz/div/div/div/div/div/div/div/div/div/div[1]/span[1]/div[1]/span[2]').text).replace('(','').replace(')',''))
-        if (int(peoples)<3):#temp_changes
+        if (int(peoples)<25):#25_num defines when to leave meeting
             driver.get('https://www.google.com')
             print("\nLEFT MEETING ")
             break
@@ -143,11 +144,9 @@ def start_bot(meet_url,user_mail,password,messageString):
             inner_text= driver.execute_script("return arguments[0].innerText;", messages)
             lines = inner_text.split('\n')
             time.sleep(1)
-            #sys.stdout.write("\rLast Message : "+str(lines[-1])) #temp_changes
-            #sys.stdout.flush()
 
 
-            sys.stdout.write("\rMessages Count:{}  Last Message: {} ".format(str(int(len(lines)/2)),str(lines[-1])))
+            sys.stdout.write("\rTotal Messages Count:"+str(int(len(lines)/2))+" Last Message: "+str(lines[-1]))
             sys.stdout.flush()
             Msg=str(lines[-1]).lower() #fetching the last message and lowering case for comaparision
             
@@ -158,7 +157,7 @@ def start_bot(meet_url,user_mail,password,messageString):
                 
                 if collections.Counter(lMsg)==collections.Counter(temp[:3]):#comparing 
                     #messaging bot
-                    time.sleep(5)
+                    time.sleep(3)
                     if run_once==0:
                         WebDriverWait(driver,60).until(EC.presence_of_element_located((By.XPATH,"//textarea[@name='chatTextInput']"))).send_keys(messageString)
                         webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
@@ -192,12 +191,14 @@ def main():
     messageString=input("Enter Your roll_no space your name for msg.: ")
     user_mail=input("Enter your VIT email : ")
     password=input("Enter your password : ")
+
+    ###ENTER BELOW FIELDS TO GET RID OF INPUTS###
     
     '''
     meet_url=TEST
     user_mail='shubham.takankhar19@vit.edu'
     password =os.environ.get('PASS')
-    messageString='55 Ajay Ghale'
+    messageString='55 Shubham'
     '''
 
     start_bot(meet_url,user_mail,password,messageString)
